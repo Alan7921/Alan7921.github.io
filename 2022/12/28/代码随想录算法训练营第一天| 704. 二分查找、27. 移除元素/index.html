@@ -28,7 +28,7 @@
 <meta property="og:description" content="LeetCode 704. 二分查找 123456789101112131415161718192021222324252627282930313233&#x2F;&#x2F; invirants:&#x2F;&#x2F; If the target value is within the array to be searched, at any iteration, it stays within [left,right]&#x2F;&#x2F; [0,">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-12-28T16:16:23.000Z">
-<meta property="article:modified_time" content="2022-12-28T16:17:14.491Z">
+<meta property="article:modified_time" content="2022-12-28T21:40:05.799Z">
 <meta property="article:author" content="Xin Liu">
 <meta name="twitter:card" content="summary">
 
@@ -205,7 +205,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-12-28 16:16:23 / Modified: 16:17:14" itemprop="dateCreated datePublished" datetime="2022-12-28T16:16:23Z">2022-12-28</time>
+              <time title="Created: 2022-12-28 16:16:23 / Modified: 21:40:05" itemprop="dateCreated datePublished" datetime="2022-12-28T16:16:23Z">2022-12-28</time>
             </span>
 
           
@@ -228,6 +228,12 @@
 
 <p>这道题使用双指针方法可以达到O(n)的时间复杂度，最一开始我写的版本双指针在同侧，后来思考后发现这样多扫描了一些元素，所以在此之上做了一些优化，使用两个指针对向遍历，当二者相遇后停止。</p>
 <p>Note：循环条件的设定仍然和开闭区间有关</p>
+<p>LeetCode 35.搜索插入位置</p>
+<p>题目要求在数组中查找指定元素，若检索到该元素，返回其索引，若不包含此元素，返回其应该被插入的位置的索引。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"> /*</span><br><span class="line">  * try to find the first element in this array which fit a[i] &gt;= target</span><br><span class="line"> 	* i.e. nums[pos - 1] &lt; target &lt;= nums[pos]</span><br><span class="line">  */</span><br><span class="line"></span><br><span class="line">// @lc code=start</span><br><span class="line">class Solution &#123;</span><br><span class="line">    // public int searchInsert(int[] nums, int target) &#123;</span><br><span class="line">    //     int left = 0;</span><br><span class="line">    //     int right = nums.length - 1;</span><br><span class="line">    //     int mid = 0; </span><br><span class="line"></span><br><span class="line">    //     while (left &lt;= right) &#123;</span><br><span class="line">    //         mid = (right - left) / 2 + left;</span><br><span class="line">    //         if (nums[mid] &gt;= target) &#123;</span><br><span class="line">    //             right = mid - 1;</span><br><span class="line">    //         &#125; else if (nums[mid] &lt; target) &#123;</span><br><span class="line">    //             left = mid + 1;</span><br><span class="line">    //         &#125; </span><br><span class="line">    //     &#125;</span><br><span class="line">    //     return left;</span><br><span class="line">    // &#125;</span><br><span class="line"></span><br><span class="line">    public int searchInsert(int[] nums, int target) &#123;</span><br><span class="line">        int left = 0;</span><br><span class="line">        int right = nums.length;</span><br><span class="line">        int mid = 0; </span><br><span class="line"></span><br><span class="line">        while (left &lt; right) &#123;</span><br><span class="line">            mid = (right - left) / 2 + left;</span><br><span class="line">            if (nums[mid] &gt;= target) &#123;</span><br><span class="line">                right = mid;</span><br><span class="line">            &#125; else if (nums[mid] &lt; target) &#123;</span><br><span class="line">                left = mid + 1;</span><br><span class="line">            &#125; </span><br><span class="line">        &#125;</span><br><span class="line">        return left;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述同时实现了开闭区间的解法。</p>
+<p>一开始一直纠结的一个点是，当nums[mid] &gt;&#x3D; target时，将right更新为mid - 1会把valid的节点移除出区间，后来思考了一段时间，发现按照这样的更新方法，结束循环时，所有的&gt;&#x3D;target的元素都在right右侧，即[right + 1, ]，而所有小于target的元素都在left左侧，而退出循环时，总满足left &#x3D; right + 1, 则left总是指向第一个满足&gt;&#x3D;target的元素，故而总是返回left即可。</p>
 
     </div>
 
@@ -246,7 +252,10 @@
     <a href="/2022/12/14/hello-world/" rel="prev" title="Hello World">
       <i class="fa fa-chevron-left"></i> Hello World
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/12/29/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E4%BA%8C%E5%A4%A9-977-209-59/" rel="next" title="代码随想录算法训练营第二天| 977,209,59">
+      代码随想录算法训练营第二天| 977,209,59 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -318,7 +327,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

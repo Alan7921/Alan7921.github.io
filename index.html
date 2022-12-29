@@ -178,6 +178,76 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/29/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E4%BA%8C%E5%A4%A9-977-209-59/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Xin Liu">
+      <meta itemprop="description" content="Life is like a boat, and this is what CC owns.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CC's Boat">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/12/29/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E4%BA%8C%E5%A4%A9-977-209-59/" class="post-title-link" itemprop="url">代码随想录算法训练营第二天| 977,209,59</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-12-29 13:55:33 / Modified: 13:59:56" itemprop="dateCreated datePublished" datetime="2022-12-29T13:55:33Z">2022-12-29</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>LeetCode.977 有序数组的平方</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * as the array is non-decreasing, thus we are sure that the elment that </span></span><br><span class="line"><span class="comment"> * has the largest squre must be at two end. </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] sortedSquares(<span class="type">int</span>[] nums) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>; </span><br><span class="line">        <span class="type">int</span> <span class="variable">right</span> <span class="operator">=</span> nums.length - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span>[] ans = <span class="keyword">new</span> <span class="title class_">int</span>[nums.length];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> ans.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            <span class="keyword">if</span> (Math.abs(nums[left]) &gt;= Math.abs(nums[right])) &#123;</span><br><span class="line">                ans[i] = nums[left] * nums[left];</span><br><span class="line">                left++;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                ans[i] =  nums[right] * nums[right];</span><br><span class="line">                right--;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>双指针方法的简单应用</p>
+<p>LeetCode.209 长度最小的子数组</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">minSubArrayLen</span><span class="params">(<span class="type">int</span> target, <span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">ans</span> <span class="operator">=</span> Integer.MAX_VALUE;</span><br><span class="line">        <span class="type">int</span> <span class="variable">sum</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">slowIndex</span> <span class="operator">=</span> <span class="number">0</span>, fastIndex = <span class="number">0</span>; fastIndex &lt; nums.length; fastIndex++) &#123;</span><br><span class="line">            sum += nums[fastIndex];</span><br><span class="line">            <span class="keyword">while</span> (sum &gt;= target) &#123;</span><br><span class="line">                ans = Math.min(ans, fastIndex - slowIndex + <span class="number">1</span>);</span><br><span class="line">                sum -= nums[slowIndex++];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ans == Integer.MAX_VALUE ? <span class="number">0</span> : ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意slowIndex的更新应该使用while循环，更新直到sum&lt;target</p>
+<p>LeetCode.59 螺旋矩阵II</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[][] generateMatrix(<span class="type">int</span> n) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span>[][] ans = <span class="keyword">new</span> <span class="title class_">int</span>[n][n];</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> <span class="number">0</span>, r = n - <span class="number">1</span>, t = <span class="number">0</span>, b = n - <span class="number">1</span>; </span><br><span class="line">        <span class="type">int</span> <span class="variable">cnt</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(cnt &lt;= n*n) &#123;</span><br><span class="line">          </span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> l; i &lt;= r; i++) &#123;</span><br><span class="line">                ans[t][i] = cnt++;</span><br><span class="line">            &#125;</span><br><span class="line">            t++;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> t; i &lt;= b; i++) &#123;</span><br><span class="line">                ans[i][r] = cnt++;</span><br><span class="line">            &#125;</span><br><span class="line">            r--;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> r; i &gt;= l; i--) &#123;</span><br><span class="line">                ans[b][i] = cnt++;</span><br><span class="line">            &#125;</span><br><span class="line">            b--;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> b; i &gt;= t; i--) &#123;</span><br><span class="line">                ans[i][l] = cnt++;</span><br><span class="line">            &#125;</span><br><span class="line">            l++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对比了一下我的方法和Carl的方法，我写的这个等于是纯粹模拟行为，感觉思维量更少一点，更straightforward.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/28/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E4%B8%80%E5%A4%A9|%20704.%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E3%80%8127.%20%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -203,7 +273,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-12-28 16:16:23 / Modified: 16:17:14" itemprop="dateCreated datePublished" datetime="2022-12-28T16:16:23Z">2022-12-28</time>
+              <time title="Created: 2022-12-28 16:16:23 / Modified: 21:40:05" itemprop="dateCreated datePublished" datetime="2022-12-28T16:16:23Z">2022-12-28</time>
             </span>
 
           
@@ -226,6 +296,12 @@
 
 <p>这道题使用双指针方法可以达到O(n)的时间复杂度，最一开始我写的版本双指针在同侧，后来思考后发现这样多扫描了一些元素，所以在此之上做了一些优化，使用两个指针对向遍历，当二者相遇后停止。</p>
 <p>Note：循环条件的设定仍然和开闭区间有关</p>
+<p>LeetCode 35.搜索插入位置</p>
+<p>题目要求在数组中查找指定元素，若检索到该元素，返回其索引，若不包含此元素，返回其应该被插入的位置的索引。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"> /*</span><br><span class="line">  * try to find the first element in this array which fit a[i] &gt;= target</span><br><span class="line"> 	* i.e. nums[pos - 1] &lt; target &lt;= nums[pos]</span><br><span class="line">  */</span><br><span class="line"></span><br><span class="line">// @lc code=start</span><br><span class="line">class Solution &#123;</span><br><span class="line">    // public int searchInsert(int[] nums, int target) &#123;</span><br><span class="line">    //     int left = 0;</span><br><span class="line">    //     int right = nums.length - 1;</span><br><span class="line">    //     int mid = 0; </span><br><span class="line"></span><br><span class="line">    //     while (left &lt;= right) &#123;</span><br><span class="line">    //         mid = (right - left) / 2 + left;</span><br><span class="line">    //         if (nums[mid] &gt;= target) &#123;</span><br><span class="line">    //             right = mid - 1;</span><br><span class="line">    //         &#125; else if (nums[mid] &lt; target) &#123;</span><br><span class="line">    //             left = mid + 1;</span><br><span class="line">    //         &#125; </span><br><span class="line">    //     &#125;</span><br><span class="line">    //     return left;</span><br><span class="line">    // &#125;</span><br><span class="line"></span><br><span class="line">    public int searchInsert(int[] nums, int target) &#123;</span><br><span class="line">        int left = 0;</span><br><span class="line">        int right = nums.length;</span><br><span class="line">        int mid = 0; </span><br><span class="line"></span><br><span class="line">        while (left &lt; right) &#123;</span><br><span class="line">            mid = (right - left) / 2 + left;</span><br><span class="line">            if (nums[mid] &gt;= target) &#123;</span><br><span class="line">                right = mid;</span><br><span class="line">            &#125; else if (nums[mid] &lt; target) &#123;</span><br><span class="line">                left = mid + 1;</span><br><span class="line">            &#125; </span><br><span class="line">        &#125;</span><br><span class="line">        return left;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述同时实现了开闭区间的解法。</p>
+<p>一开始一直纠结的一个点是，当nums[mid] &gt;&#x3D; target时，将right更新为mid - 1会把valid的节点移除出区间，后来思考了一段时间，发现按照这样的更新方法，结束循环时，所有的&gt;&#x3D;target的元素都在right右侧，即[right + 1, ]，而所有小于target的元素都在left左侧，而退出循环时，总满足left &#x3D; right + 1, 则left总是指向第一个满足&gt;&#x3D;target的元素，故而总是返回left即可。</p>
 
       
     </div>
@@ -377,7 +453,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
