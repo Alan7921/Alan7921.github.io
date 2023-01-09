@@ -178,6 +178,69 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/09/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E5%8D%81%E4%B8%89%E5%A4%A9%EF%BD%9C239-347/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Xin Liu">
+      <meta itemprop="description" content="Life is like a boat, and this is what CC owns.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CC's Boat">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/01/09/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E5%8D%81%E4%B8%89%E5%A4%A9%EF%BD%9C239-347/" class="post-title-link" itemprop="url">代码随想录算法训练营第十三天｜239-347</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-01-09 16:08:31 / Modified: 16:12:11" itemprop="dateCreated datePublished" datetime="2023-01-09T16:08:31Z">2023-01-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>LeetCode 239.滑动窗口最大值</p>
+<p>这道题其实还挺有意思的， 一个直观的想法是在遍历时对于窗口元素二次遍历寻找最大值，时间复杂度为O(nk)， 超时。这个办法的问题其实是，在每次移动窗口时，我们只是移除了一个元素，并新增加一个元素，但是却需要二次遍历当前的窗口，即上一个求出的最大值无法给下次寻找最大值带来任何便利。</p>
+<p>一个优化思路是cache住上个窗口的最大值相关的部分信息，带入下一个窗口，这里使用一个定制的单调递减队列实现，具体的实现如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] maxSlidingWindow(<span class="type">int</span>[] nums, <span class="type">int</span> k) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">MyQueue</span> <span class="variable">queue</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MyQueue</span>();</span><br><span class="line"></span><br><span class="line">        List&lt;Integer&gt; ans = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; k; i++) &#123;</span><br><span class="line">            queue.add(nums[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        ans.add(queue.peek());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> k; i &lt; nums.length; i++) &#123;</span><br><span class="line">            </span><br><span class="line">            queue.add(nums[i]);</span><br><span class="line">            queue.poll(nums[i - k]);</span><br><span class="line">            ans.add(queue.peek());</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ans.stream().mapToInt(i -&gt; i).toArray();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// customize a monotonically decreasing queue</span></span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">MyQueue</span> &#123;</span><br><span class="line">        Deque&lt;Integer&gt; deque = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// if the slide window rule out our head element</span></span><br><span class="line">        <span class="comment">// then pop it, else pop nothing, as we do not cache</span></span><br><span class="line">        <span class="comment">// them actaully</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">poll</span> <span class="params">(<span class="type">int</span> val)</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> ( val == deque.peek()) &#123;</span><br><span class="line">                deque.poll();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// for every new added element, try to add them into the queue</span></span><br><span class="line">        <span class="comment">// if they are less then any elements, just add it at the last</span></span><br><span class="line">        <span class="comment">// else delete those less than it, as they are meanningless now</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span> <span class="params">(<span class="type">int</span> val)</span> &#123;</span><br><span class="line">            <span class="comment">// note here, we need to remain the same large element within the queue</span></span><br><span class="line">            <span class="comment">// if here we use val &gt;= deque.last, we would rule out the same large element</span></span><br><span class="line">            <span class="keyword">while</span> (!deque.isEmpty() &amp;&amp; val &gt; deque.peekLast()) &#123;</span><br><span class="line">                deque.removeLast();</span><br><span class="line">            &#125;</span><br><span class="line">            deque.addLast(val);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// since we maintain such a queue that the head element is always our</span></span><br><span class="line">        <span class="comment">// maximum value in this window</span></span><br><span class="line">        <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">peek</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> deque.peek();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/08/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E5%8D%81%E4%B8%80%E5%A4%A9%EF%BD%9C20-1047-150/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -928,79 +991,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/28/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E4%B8%80%E5%A4%A9|%20704.%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E3%80%8127.%20%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Xin Liu">
-      <meta itemprop="description" content="Life is like a boat, and this is what CC owns.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CC's Boat">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/12/28/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E4%B8%80%E5%A4%A9%7C%20704.%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E3%80%8127.%20%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0/" class="post-title-link" itemprop="url">代码随想录算法第一天| 704. 二分查找、27. 移除元素</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-12-28 16:16:23 / Modified: 21:40:05" itemprop="dateCreated datePublished" datetime="2022-12-28T16:16:23Z">2022-12-28</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>LeetCode 704. 二分查找</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// invirants:</span></span><br><span class="line"><span class="comment">// If the target value is within the array to be searched, at any iteration, it stays within [left,right]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// [0, nums.length - 1] is our seaching range</span></span><br><span class="line"><span class="comment">// keep searching until left &gt; right where there is no element left in our range</span></span><br><span class="line"><span class="comment">// mid = (left + right) / 2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* if nums[mid] &gt; target, since all the elements left in our range are valid, </span></span><br><span class="line"><span class="comment"> * thus right = mid - 1, as the mid value is impossible to be target now,</span></span><br><span class="line"><span class="comment"> * which is the same with updating the left index.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">search</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">ans</span> <span class="operator">=</span> -<span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> mid;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(left &lt;= right) &#123;</span><br><span class="line">            mid = (right - left)/<span class="number">2</span> + left;</span><br><span class="line">            <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">                ans = mid;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &gt; target ) &#123;</span><br><span class="line">                right = mid - <span class="number">1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                left = mid + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这道题的重点在于循环不变量的确定以及维护，常见的错误点是开闭区间，循环条件，以及循环中左右index的更新。</p>
-<p>LeetCode 27.移除元素</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">removeElement</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> val)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">leftIndex</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">rightIndex</span> <span class="operator">=</span> nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="comment">// note: when left = right, the current pointing element has not </span></span><br><span class="line">        <span class="comment">// been checked, thus when and only when left &gt; right, we stop checking</span></span><br><span class="line">        <span class="keyword">while</span> (leftIndex &lt;= rightIndex) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[leftIndex] != val) &#123;</span><br><span class="line">                leftIndex ++;</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                nums[leftIndex] = nums[rightIndex];</span><br><span class="line">                rightIndex--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> leftIndex;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* [0, nums.length)</span></span><br><span class="line"><span class="comment">    * </span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="comment">// public int removeElement(int[] nums, int val) &#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//     int leftIndex = 0;</span></span><br><span class="line">    <span class="comment">//     int rightIndex = nums.length;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//     while (leftIndex &lt; rightIndex) &#123;</span></span><br><span class="line">    <span class="comment">//         if (nums[leftIndex] != val) &#123;</span></span><br><span class="line">    <span class="comment">//             leftIndex ++;</span></span><br><span class="line">    <span class="comment">//         &#125;else &#123;</span></span><br><span class="line">    <span class="comment">//             nums[leftIndex] = nums[rightIndex - 1];</span></span><br><span class="line">    <span class="comment">//             rightIndex--;</span></span><br><span class="line">    <span class="comment">//         &#125;</span></span><br><span class="line">    <span class="comment">//     &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//     return leftIndex;</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这道题使用双指针方法可以达到O(n)的时间复杂度，最一开始我写的版本双指针在同侧，后来思考后发现这样多扫描了一些元素，所以在此之上做了一些优化，使用两个指针对向遍历，当二者相遇后停止。</p>
-<p>Note：循环条件的设定仍然和开闭区间有关</p>
-<p>LeetCode 35.搜索插入位置</p>
-<p>题目要求在数组中查找指定元素，若检索到该元素，返回其索引，若不包含此元素，返回其应该被插入的位置的索引。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"> /*</span><br><span class="line">  * try to find the first element in this array which fit a[i] &gt;= target</span><br><span class="line"> 	* i.e. nums[pos - 1] &lt; target &lt;= nums[pos]</span><br><span class="line">  */</span><br><span class="line"></span><br><span class="line">// @lc code=start</span><br><span class="line">class Solution &#123;</span><br><span class="line">    // public int searchInsert(int[] nums, int target) &#123;</span><br><span class="line">    //     int left = 0;</span><br><span class="line">    //     int right = nums.length - 1;</span><br><span class="line">    //     int mid = 0; </span><br><span class="line"></span><br><span class="line">    //     while (left &lt;= right) &#123;</span><br><span class="line">    //         mid = (right - left) / 2 + left;</span><br><span class="line">    //         if (nums[mid] &gt;= target) &#123;</span><br><span class="line">    //             right = mid - 1;</span><br><span class="line">    //         &#125; else if (nums[mid] &lt; target) &#123;</span><br><span class="line">    //             left = mid + 1;</span><br><span class="line">    //         &#125; </span><br><span class="line">    //     &#125;</span><br><span class="line">    //     return left;</span><br><span class="line">    // &#125;</span><br><span class="line"></span><br><span class="line">    public int searchInsert(int[] nums, int target) &#123;</span><br><span class="line">        int left = 0;</span><br><span class="line">        int right = nums.length;</span><br><span class="line">        int mid = 0; </span><br><span class="line"></span><br><span class="line">        while (left &lt; right) &#123;</span><br><span class="line">            mid = (right - left) / 2 + left;</span><br><span class="line">            if (nums[mid] &gt;= target) &#123;</span><br><span class="line">                right = mid;</span><br><span class="line">            &#125; else if (nums[mid] &lt; target) &#123;</span><br><span class="line">                left = mid + 1;</span><br><span class="line">            &#125; </span><br><span class="line">        &#125;</span><br><span class="line">        return left;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上述同时实现了开闭区间的解法。</p>
-<p>一开始一直纠结的一个点是，当nums[mid] &gt;&#x3D; target时，将right更新为mid - 1会把valid的节点移除出区间，后来思考了一段时间，发现按照这样的更新方法，结束循环时，所有的&gt;&#x3D;target的元素都在right右侧，即[right + 1, ]，而所有小于target的元素都在left左侧，而退出循环时，总满足left &#x3D; right + 1, 则left总是指向第一个满足&gt;&#x3D;target的元素，故而总是返回left即可。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1070,7 +1060,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
