@@ -178,6 +178,79 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/13/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E5%8D%81%E4%B8%83%E5%A4%A9%EF%BD%9C110-257-404/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Xin Liu">
+      <meta itemprop="description" content="Life is like a boat, and this is what CC owns.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CC's Boat">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/01/13/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E5%8D%81%E4%B8%83%E5%A4%A9%EF%BD%9C110-257-404/" class="post-title-link" itemprop="url">代码随想录算法训练营第十七天｜110-257-404</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-01-13 17:12:28 / Modified: 17:13:10" itemprop="dateCreated datePublished" datetime="2023-01-13T17:12:28Z">2023-01-13</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>LeetCode 110. 平衡二叉树</p>
+<p>思路并不复杂，如果当前节点是平衡的，那么判断子节点是否平衡</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isBalanced</span><span class="params">(TreeNode root)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (Math.abs(getHeight(root.left) - getHeight(root.right)) &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> isBalanced(root.left) &amp;&amp; isBalanced(root.right);</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="title function_">getHeight</span> <span class="params">(TreeNode root)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Math.max(getHeight(root.left), getHeight(root.right)) + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>LeetCode 257.二叉树的所有路径</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;String&gt; <span class="title function_">binaryTreePaths</span><span class="params">(TreeNode root)</span> &#123;</span><br><span class="line">        List&lt;String&gt; ans = <span class="keyword">new</span> <span class="title class_">LinkedList</span>();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (root != <span class="literal">null</span>) &#123;</span><br><span class="line">            traversal(root, <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;Integer&gt;(), ans);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">traversal</span> <span class="params">(TreeNode node, List&lt;Integer&gt; path, List&lt;String&gt; ans)</span> &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// add the value of this node</span></span><br><span class="line">        path.add(node.val);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// if this node is a leaf node, convert the Integer list to String</span></span><br><span class="line">        <span class="comment">// and record it in ans</span></span><br><span class="line">        <span class="keyword">if</span> (node.left == <span class="literal">null</span> &amp;&amp; node.right == <span class="literal">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="type">StringBuilder</span> <span class="variable">sb</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; path.size() - <span class="number">1</span>; i++) &#123;</span><br><span class="line">                sb.append(String.valueOf(path.get(i)));</span><br><span class="line">                sb.append(<span class="string">&quot;-&gt;&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            sb.append(path.get(path.size() - <span class="number">1</span>));</span><br><span class="line">            ans.add(<span class="keyword">new</span> <span class="title class_">String</span>(sb));</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// if there is child node, recursively call this func</span></span><br><span class="line">        <span class="keyword">if</span> (node.left != <span class="literal">null</span>) &#123;</span><br><span class="line">            traversal(node.left, path, ans);</span><br><span class="line">            <span class="comment">// note here, we need to BACKTRACK the path list after we checked this path</span></span><br><span class="line">            path.remove(path.size() - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (node.right != <span class="literal">null</span>) &#123;</span><br><span class="line">            traversal(node.right, path, ans);</span><br><span class="line">            path.remove(path.size() - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>LeetCode 404.左叶子之和</p>
+<p>递归的核心步骤，确定递归传入参数，递归出口，单层处理逻辑，over.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">sumOfLeftLeaves</span><span class="params">(TreeNode root)</span> &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// null node is invalid</span></span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="comment">// leaf node has no child node anymore</span></span><br><span class="line">        <span class="keyword">if</span> (root.left == <span class="literal">null</span> &amp;&amp; root.right == <span class="literal">null</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// for every node, deal with its left, right and itself</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// left node</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">leftValue</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="comment">// if left child node is a leaf node</span></span><br><span class="line">        <span class="keyword">if</span> (root.left != <span class="literal">null</span> &amp;&amp; root.left.left == <span class="literal">null</span> &amp;&amp; root.left.right == <span class="literal">null</span>) &#123;</span><br><span class="line">             leftValue = root.left.val;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            leftValue = sumOfLeftLeaves (root.left);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// right node</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">rightValue</span> <span class="operator">=</span>  sumOfLeftLeaves(root.right);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//itself</span></span><br><span class="line">        <span class="keyword">return</span> leftValue + rightValue;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/12/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E5%8D%81%E5%85%AD%E5%A4%A9%EF%BD%9C222-111-104/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -897,95 +970,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/02/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E4%BA%94%E5%A4%A9%EF%BD%9C242-349-202-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Xin Liu">
-      <meta itemprop="description" content="Life is like a boat, and this is what CC owns.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CC's Boat">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/01/02/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E4%BA%94%E5%A4%A9%EF%BD%9C242-349-202-1/" class="post-title-link" itemprop="url">代码随想录算法训练营第五天｜242-349-202-1</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2023-01-02 14:00:26 / Modified: 15:57:32" itemprop="dateCreated datePublished" datetime="2023-01-02T14:00:26Z">2023-01-02</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>LeetCode 242. 有效的字母异位词</p>
-<p>Ver1:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isAnagram</span><span class="params">(String s, String t)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// new two arrays to count the number of each character in each string</span></span><br><span class="line">        <span class="type">int</span>[] sChars = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">123</span>];</span><br><span class="line">        <span class="type">int</span>[] tChars = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">123</span>];</span><br><span class="line"></span><br><span class="line">        <span class="comment">// full scan two strings and count</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; s.toCharArray().length; i++) &#123;</span><br><span class="line">            sChars[s.charAt(i)]++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; t.toCharArray().length; j++) &#123;</span><br><span class="line">            tChars[t.charAt(j)]++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// return if these two counter arrays are equal</span></span><br><span class="line">        <span class="keyword">return</span> Arrays.equals(sChars, tChars);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>Ver2:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isAnagram</span><span class="params">(String s, String t)</span> &#123;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// better check the length of each string first</span></span><br><span class="line">      <span class="keyword">if</span>(s.length() != t.length()) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// better space usage</span></span><br><span class="line">      <span class="type">int</span>[] alphabet = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">123</span>];</span><br><span class="line"></span><br><span class="line">      <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; s.toCharArray().length; i++) &#123;</span><br><span class="line">          alphabet[s.charAt(i)]++;</span><br><span class="line">          alphabet[t.charAt(i)]--;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> Arrays.equals(alphabet, <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">123</span>]);</span><br><span class="line">  	&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>Ver3:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">   <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isAnagram</span><span class="params">(String s, String t)</span> &#123;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span>(s.length() != t.length()) &#123;</span><br><span class="line">       <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">//better space usage</span></span><br><span class="line">   <span class="type">int</span>[] alphabet = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">26</span>];</span><br><span class="line"></span><br><span class="line">   <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; s.length(); i++) &#123;</span><br><span class="line">       alphabet[s.charAt(i) - <span class="string">&#x27;a&#x27;</span>]++;</span><br><span class="line">       alphabet[t.charAt(i) - <span class="string">&#x27;a&#x27;</span>]--;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; alphabet.length; i++) &#123;</span><br><span class="line">       <span class="keyword">if</span> (alphabet[i] != <span class="number">0</span>) &#123;</span><br><span class="line">           <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这道题的难度不高，使用数组充当哈希表，记录每个字符串中各个字符的数量，但是一些小的细节方面的优化值得注意</p>
-<ol>
-<li>比如一开始脑子抽风了使用了s.toCharArray().length导致超时</li>
-<li>开辟了两个数组用于记录字符数量</li>
-<li>没有检查字符串长度</li>
-<li>对两个字符串分别遍历</li>
-</ol>
-<p>进阶问题:如果字符串包含unicode字符怎么办？</p>
-<p>可以使用hashmap，以字符为key，字符的数量为value，思路一致</p>
-<p>LeetCode 349. 两个数组的交集</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] intersection(<span class="type">int</span>[] nums1, <span class="type">int</span>[] nums2) &#123;</span><br><span class="line">        <span class="type">int</span>[] digit1 = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">1001</span>];</span><br><span class="line">        <span class="type">int</span>[] digit2 = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">1001</span>];</span><br><span class="line">      </span><br><span class="line">				<span class="comment">// full scan each array and records the number</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums1.length; i++) &#123;</span><br><span class="line">            digit1[nums1[i]]++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums2.length; i++) &#123;</span><br><span class="line">            digit2[nums2[i]]++;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">      	<span class="comment">// if a number exists in both array then record it</span></span><br><span class="line">        LinkedList&lt;Integer&gt; ans = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; digit1.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(digit1[i] &gt; <span class="number">0</span> &amp;&amp; digit2[i] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                ans.add(i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">				</span><br><span class="line">      	<span class="comment">// change the list to an array</span></span><br><span class="line">        <span class="type">int</span>[] array = <span class="keyword">new</span> <span class="title class_">int</span>[ans.size()];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; ans.size(); i++) array[i] = ans.get(i);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> array;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>因为本题限制了数组中包含的数字的范围，所以可以使用开两个数组的方法作为哈希表，如果数字范围更大一些，则应该考虑使用set。</p>
-<p>LeetCode 202. 快乐数</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isHappy</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line"></span><br><span class="line">        HashSet&lt;Integer&gt; seen = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> ( n != <span class="number">1</span> &amp;&amp; !seen.contains(n)) &#123;</span><br><span class="line">            seen.add(n);</span><br><span class="line">            n = getNextNumber(n);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> n == <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="title function_">getNextNumber</span> <span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> ( n &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> n % <span class="number">10</span>;</span><br><span class="line">            res += temp * temp;</span><br><span class="line">            n /= <span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这道题还是蛮有意思的，一开始没有想明白结束循环的条件，后来才意识到，无限循环意味着重复出现的n，如此，将其加入set，利用set查询时间复杂度为O(1)的优势进行快速查询，如果数字已经check过，那么结束循环，或者数字为1，结束循环。</p>
-<p>LeetCode 1.两数之和</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] twoSum(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">        HashMap &lt;Integer, Integer&gt; visited = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(visited.containsKey(target - nums[i])) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[] &#123;i, visited.get(target - nums[i])&#125;;</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                visited.put(nums[i], i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>两数之和用暴力法解决思路还是挺直接的，但是暴力法的复杂度太高了。双重遍历的复杂度为n^2，其原因是，对于每一个正在check的数字，搜寻target-nums[i]的开销太大，考虑使用set将已经check过的数字cache起来，并利用其查询O(1)的优势。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1055,7 +1039,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
