@@ -178,6 +178,464 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/28/img/MyBatis%E6%98%A0%E5%B0%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Xin Liu">
+      <meta itemprop="description" content="Life is like a boat, and this is what CC owns.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CC's Boat">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/03/28/img/MyBatis%E6%98%A0%E5%B0%84/" class="post-title-link" itemprop="url">Untitled</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-03-28 22:03:18" itemprop="dateCreated datePublished" datetime="2023-03-28T22:03:18+01:00">2023-03-28</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="MyBatis映射"><a href="#MyBatis映射" class="headerlink" title="MyBatis映射"></a>MyBatis映射</h2><p>一个很常见的情况是，数据库中的属性和对应的实体类的字段名并不一致，所以要处理好其映射关系。</p>
+<p>处理的方法有：</p>
+<ol>
+<li>在SQL查询语句中为属性（表中的列名）起一个对应实体类字段名的别名，如</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> emp_id empId, emp_name empName <span class="keyword">from</span> t_emp <span class="keyword">where</span> emp_id <span class="operator">=</span> #&#123;empId&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>当表的属性名遵循Underscore的命名标准并且实体类的字段命名符合驼峰命名法时可以在MyBatis的全局配置文件中设置自动映射</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">settings</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">&quot;mapUnderscoreToCamelCase&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">settings</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p>使用resultMap自定义映射处理</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span>=<span class="string">&quot;userMap&quot;</span> <span class="attr">type</span>=<span class="string">&quot;User&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">&quot;id&quot;</span> <span class="attr">column</span>=<span class="string">&quot;id&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">&quot;userName&quot;</span> <span class="attr">column</span>=<span class="string">&quot;user_name&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">&quot;password&quot;</span> <span class="attr">column</span>=<span class="string">&quot;password&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">&quot;age&quot;</span> <span class="attr">column</span>=<span class="string">&quot;age&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">&quot;sex&quot;</span> <span class="attr">column</span>=<span class="string">&quot;sex&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;testMohu&quot;</span> <span class="attr">resultMap</span>=<span class="string">&quot;userMap&quot;</span>&gt;</span></span><br><span class="line">select id,user_name,password,age,sex from t_user where user_name like</span><br><span class="line">concat(&#x27;%&#x27;,#&#123;mohu&#125;,&#x27;%&#x27;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="多对一映射"><a href="#多对一映射" class="headerlink" title="多对一映射"></a>多对一映射</h3><p>1.级联方式处理</p>
+<p>2.association标签</p>
+<p>3.分步查询</p>
+<h4 id="为什么要使用分步查询？"><a href="#为什么要使用分步查询？" class="headerlink" title="为什么要使用分步查询？"></a>为什么要使用分步查询？</h4><p>经过全局配置后，可以实现延迟加载（lazy loading）</p>
+<p>因为有些实体类的某些字段也许在初次加载时并不必须，通过延迟加载可以节省相当数量的内存</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--可以在association标签中设置fetchType属性来覆盖该状态--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">&quot;lazyLoadingEnabled&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--注意如果此设置为True则任一方法的调用都会加载该对象的所有延迟加载属性--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">&quot;aggresiveLazyLoading&quot;</span> <span class="attr">value</span>=<span class="string">&quot;false&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="一对多映射"><a href="#一对多映射" class="headerlink" title="一对多映射"></a>一对多映射</h3><p>1.使用collection标签</p>
+<p>2.分步查询</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/28/img/MyBatis-%E5%8A%A8%E6%80%81SQL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Xin Liu">
+      <meta itemprop="description" content="Life is like a boat, and this is what CC owns.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CC's Boat">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/03/28/img/MyBatis-%E5%8A%A8%E6%80%81SQL/" class="post-title-link" itemprop="url">Untitled</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-03-28 22:03:15" itemprop="dateCreated datePublished" datetime="2023-03-28T22:03:15+01:00">2023-03-28</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="MyBatis-动态SQL"><a href="#MyBatis-动态SQL" class="headerlink" title="MyBatis-动态SQL"></a>MyBatis-动态SQL</h2><p>MyBatis框架的动态SQL技术是一种根据特定条件动态拼装SQL语句的功能，它存在的意义是为了解决拼接SQL语句字符串时的痛点问题。</p>
+<h3 id="if-where和trim"><a href="#if-where和trim" class="headerlink" title="if, where和trim"></a>if, where和trim</h3><h3 id="choose-when-和-otherwise"><a href="#choose-when-和-otherwise" class="headerlink" title="choose, when 和 otherwise"></a>choose, when 和 otherwise</h3>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/28/img/MyBatis%E7%BC%93%E5%AD%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Xin Liu">
+      <meta itemprop="description" content="Life is like a boat, and this is what CC owns.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CC's Boat">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/03/28/img/MyBatis%E7%BC%93%E5%AD%98/" class="post-title-link" itemprop="url">Untitled</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-03-28 22:03:12" itemprop="dateCreated datePublished" datetime="2023-03-28T22:03:12+01:00">2023-03-28</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="MyBatis缓存"><a href="#MyBatis缓存" class="headerlink" title="MyBatis缓存"></a>MyBatis缓存</h3><h4 id="一级缓存"><a href="#一级缓存" class="headerlink" title="一级缓存"></a>一级缓存</h4><p>默认开启，SqlSession级别，通过同一个SqlSession查询的数据会被缓存，不会去数据库重新查询。</p>
+<p>使得一级缓存失效的四种情况：</p>
+<p>1.使用了不同的SqlSession</p>
+<p>2.同一SqlSession更换了查询条件</p>
+<p>3.同一个SqlSession两次查询期间数据库有update操作</p>
+<p>4.手动清空缓存</p>
+<h3 id="原生二级缓存"><a href="#原生二级缓存" class="headerlink" title="原生二级缓存"></a>原生二级缓存</h3><p>二级缓存是SqlSessionFactory级别，通过同一个Factory创建的SqlSession的查询结果会被缓存。</p>
+<p>二级缓存的开启条件</p>
+<p>1.核心配置文件中设置了全局属性cacheEnabled&#x3D;”True”，默认为true</p>
+<p>2.映射文件中设置标签<cache/></p>
+<p>3.二级缓存必须在SqlSesision关闭或提交之后才有效</p>
+<p>4.所查询的数据对应的实体类必须实现序列化接口</p>
+<p>二级缓存的失效条件：</p>
+<p>两次查询间数据库的增删改</p>
+<p>二级缓存的相关配置：</p>
+<p>1.eviction属性：缓存回收策略，默认使用LRU</p>
+<p>其他策略有FIFO，SOFT，WEAK</p>
+<p>2.flushInterval属性：刷新间隔</p>
+<p>3.size属性：引用数目</p>
+<p>4.readOnly属性：只读或者读写</p>
+<p>true：会给调用者返回缓存对象的相同实例，并且这些对象不可修改，具有性能优势</p>
+<p>false：会返回缓存对象的拷贝，比较安全</p>
+<h3 id="MyBatis的缓存查询顺序"><a href="#MyBatis的缓存查询顺序" class="headerlink" title="MyBatis的缓存查询顺序"></a>MyBatis的缓存查询顺序</h3><p>先查二级缓存，如果二级缓存没有命中，再查询一级缓存，如果一级缓存也没有命中则查询数据库。</p>
+<h3 id="MyBatis的第三方二级缓存"><a href="#MyBatis的第三方二级缓存" class="headerlink" title="MyBatis的第三方二级缓存"></a>MyBatis的第三方二级缓存</h3><p>EHCache</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/20/img/Spring%20Notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Xin Liu">
+      <meta itemprop="description" content="Life is like a boat, and this is what CC owns.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CC's Boat">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/03/20/img/Spring%20Notes/" class="post-title-link" itemprop="url">Untitled</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-03-20 12:08:49" itemprop="dateCreated datePublished" datetime="2023-03-20T12:08:49Z">2023-03-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-03-21 15:23:23" itemprop="dateModified" datetime="2023-03-21T15:23:23Z">2023-03-21</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h1><h2 id="1-Spring简介"><a href="#1-Spring简介" class="headerlink" title="1.Spring简介"></a>1.Spring简介</h2><h3 id="1-1-Spring概述"><a href="#1-1-Spring概述" class="headerlink" title="1.1 Spring概述"></a>1.1 Spring概述</h3><p>官网地址: <a target="_blank" rel="noopener" href="https://spring.io/projects/spring-framework">https://spring.io/projects/spring-framework</a></p>
+<p>Spring 是最受欢迎的企业级 Java 应用程序开发框架，数以百万的来自世界各地的开发人员使用Spring 框架来创建性能好、易于测试、可重用的代码。</p>
+<p>Spring 框架是一个开源的 Java 平台，它最初是由 Rod Johnson 编写的，并且于 2003 年 6 月首次在 Apache 2.0 许可下发布。</p>
+<p>Spring 是轻量级的框架，其基础版本只有 2 MB 左右的大小。</p>
+<p>Spring 框架的核心特性是可以用于开发任何 Java 应用程序，但是在 Java EE 平台上构建 web 应用程序是需要扩展的。Spring 框架的目标是使 J2EE 开发变得更容易使用，通过启用基于 POJO编程模型来促进良好的编程实践。</p>
+<h3 id="1-2-Spring家族"><a href="#1-2-Spring家族" class="headerlink" title="1.2 Spring家族"></a>1.2 Spring家族</h3><p>项目列表：<a target="_blank" rel="noopener" href="https://spring.io/projects">https://spring.io/projects</a></p>
+<h3 id="1-3-Spring-Framework"><a href="#1-3-Spring-Framework" class="headerlink" title="1.3 Spring Framework"></a>1.3 Spring Framework</h3><p>Spring的基础设施</p>
+<h4 id="1-3-1-Spring-Framework特性"><a href="#1-3-1-Spring-Framework特性" class="headerlink" title="1.3.1 Spring Framework特性"></a>1.3.1 Spring Framework特性</h4><p>非侵入式: 不破坏程序原有结构</p>
+<p>控制反转: IOC–Inversion of Control</p>
+<p>面向切面编程: AOP– Aspect Oriented Programming</p>
+<p>容器: Sprng IOC是一个容器负责管理组件对象的生命周期</p>
+<p>组件化:Spring实现了使用简单的组建配置组合成一个复杂的应用</p>
+<p>声明式:对编程式的一种简化</p>
+<p>一站式:可以整合各种开源框架和第三方库</p>
+<h4 id="1-3-2-Spring-Framework功能模块"><a href="#1-3-2-Spring-Framework功能模块" class="headerlink" title="1.3.2 Spring Framework功能模块"></a>1.3.2 Spring Framework功能模块</h4><table>
+<thead>
+<tr>
+<th>功能模块</th>
+<th>功能介绍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Core Container</td>
+<td>核心容器</td>
+</tr>
+<tr>
+<td>AOP&amp;Aspects</td>
+<td>面向切面编程</td>
+</tr>
+<tr>
+<td>Testing</td>
+<td>对Junit或TestNG的整合</td>
+</tr>
+<tr>
+<td>Data Access&#x2F;Integration</td>
+<td>数据访问&#x2F;集成</td>
+</tr>
+<tr>
+<td>Spring MVC</td>
+<td>面向web应用开发的集成</td>
+</tr>
+</tbody></table>
+<h2 id="2-IOC"><a href="#2-IOC" class="headerlink" title="2. IOC"></a>2. IOC</h2><h3 id="2-1-IOC容器"><a href="#2-1-IOC容器" class="headerlink" title="2.1 IOC容器"></a>2.1 IOC容器</h3><h4 id="2-1-1-IOC思想"><a href="#2-1-1-IOC思想" class="headerlink" title="2.1.1 IOC思想"></a>2.1.1 IOC思想</h4><p>对象生命周期的管理不再由程序员决定而由容器进行管理</p>
+<p>依赖注入是IOC的一种具体实现</p>
+<h4 id="2-1-2-IOC容器在Spring中的实现"><a href="#2-1-2-IOC容器在Spring中的实现" class="headerlink" title="2.1.2 IOC容器在Spring中的实现"></a>2.1.2 IOC容器在Spring中的实现</h4><p>Spring的IOC容器就是IOC思想的一个落地的产品实现。IOC容器中管理的组件也叫做bean。在创建bean之前，首先需要创建IOC容器。Spring 提供了IOC容器的两种实现。</p>
+<p>1.BeanFactory</p>
+<p>2.ApplicationContext</p>
+<h3 id="2-2-基于XML管理Bean"><a href="#2-2-基于XML管理Bean" class="headerlink" title="2.2 基于XML管理Bean"></a>2.2 基于XML管理Bean</h3><h3 id="2-2-1-XML文件中bean的配置"><a href="#2-2-1-XML文件中bean的配置" class="headerlink" title="2.2.1 XML文件中bean的配置"></a>2.2.1 XML文件中bean的配置</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">配置实体类所对应的bean，即将实体类的对象交给Spring的IOC容器管理</span></span><br><span class="line"><span class="comment">通过bean标签配置IOC容器所管理的bean</span></span><br><span class="line"><span class="comment">属性：</span></span><br><span class="line"><span class="comment">id：设置bean的唯一标识</span></span><br><span class="line"><span class="comment">class：设置bean所对应类型的全类名</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;helloworld&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.spring.bean.HelloWorld&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-2-bean对象的获取"><a href="#2-2-2-bean对象的获取" class="headerlink" title="2.2.2 bean对象的获取"></a>2.2.2 bean对象的获取</h3><p>可以通过ApplicationContext的实现类的对象的getBean方法获取，getBean方法重载了如下的几种函数签名</p>
+<table>
+<thead>
+<tr>
+<th>Modifier and Type</th>
+<th>Method</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><T> T</td>
+<td>getBean(Class <T> requiredType)</td>
+</tr>
+<tr>
+<td><T> T</td>
+<td>getBean(Class <T> requiredType, Object… args)</td>
+</tr>
+<tr>
+<td>Object</td>
+<td>getBean(String name)</td>
+</tr>
+<tr>
+<td><T> T</td>
+<td>getBean(String name, lass <T> requiredType)</td>
+</tr>
+<tr>
+<td><T> T</td>
+<td>getBean(String name, Object… args)</td>
+</tr>
+</tbody></table>
+<p>根据类型来获取bean时，在满足bean唯一性的前提下，其实只是看：『对象 instanceof 指定的类型』的返回结果，只要返回的是true就可以认定为和类型匹配，能够获取到。</p>
+<h3 id="2-2-3-依赖注入"><a href="#2-2-3-依赖注入" class="headerlink" title="2.2.3 依赖注入"></a>2.2.3 依赖注入</h3><h4 id="2-2-3-1-bean实例的字面量属性可以通过多种方式进行注入"><a href="#2-2-3-1-bean实例的字面量属性可以通过多种方式进行注入" class="headerlink" title="2.2.3.1 bean实例的字面量属性可以通过多种方式进行注入"></a>2.2.3.1 bean实例的字面量属性可以通过多种方式进行注入</h4><ol>
+<li>配置bean时通过property标签进行注入</li>
+<li>配置bean时通过constructor-arg标签进行注入</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;studentOne&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.spring.bean.Student&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- property标签：通过组件类的setXxx()方法给组件对象设置属性 --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- name属性：指定属性名（这个属性名是getXxx()、setXxx()方法定义的，和成员变量无关）</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- value属性：指定属性值 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;id&quot;</span> <span class="attr">value</span>=<span class="string">&quot;1001&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;name&quot;</span> <span class="attr">value</span>=<span class="string">&quot;张三&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;age&quot;</span> <span class="attr">value</span>=<span class="string">&quot;23&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sex&quot;</span> <span class="attr">value</span>=<span class="string">&quot;男&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;studentTwo&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.spring.bean.Student&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">value</span>=<span class="string">&quot;1002&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">constructor-arg</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">value</span>=<span class="string">&quot;李四&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">constructor-arg</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">value</span>=<span class="string">&quot;33&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">constructor-arg</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">value</span>=<span class="string">&quot;女&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">constructor-arg</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-3-2-bean实例的实体类属性的注入"><a href="#2-2-3-2-bean实例的实体类属性的注入" class="headerlink" title="2.2.3.2 bean实例的实体类属性的注入"></a>2.2.3.2 bean实例的实体类属性的注入</h4><p>1.使用ref引用外部已经声明的bean</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;clazzOne&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.spring.bean.Clazz&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;clazzId&quot;</span> <span class="attr">value</span>=<span class="string">&quot;1111&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;clazzName&quot;</span> <span class="attr">value</span>=<span class="string">&quot;财源滚滚班&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;studentFour&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.spring.bean.Student&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;id&quot;</span> <span class="attr">value</span>=<span class="string">&quot;1004&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;name&quot;</span> <span class="attr">value</span>=<span class="string">&quot;赵六&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;age&quot;</span> <span class="attr">value</span>=<span class="string">&quot;26&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sex&quot;</span> <span class="attr">value</span>=<span class="string">&quot;女&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- ref属性：引用IOC容器中某个bean的id，将所对应的bean为属性赋值 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;clazz&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;clazzOne&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>2.内部bean</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;studentFour&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.spring.bean.Student&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;id&quot;</span> <span class="attr">value</span>=<span class="string">&quot;1004&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;name&quot;</span> <span class="attr">value</span>=<span class="string">&quot;赵六&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;age&quot;</span> <span class="attr">value</span>=<span class="string">&quot;26&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sex&quot;</span> <span class="attr">value</span>=<span class="string">&quot;女&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;clazz&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 在一个bean中再声明一个bean就是内部bean --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 内部bean只能用于给属性赋值，不能在外部通过IOC容器获取，因此可以省略id属性 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;clazzInner&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.spring.bean.Clazz&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;clazzId&quot;</span> <span class="attr">value</span>=<span class="string">&quot;2222&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;clazzName&quot;</span> <span class="attr">value</span>=<span class="string">&quot;远大前程班&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>3.级联属性赋值(较少使用)</p>
+<h3 id="2-2-4-自动装配："><a href="#2-2-4-自动装配：" class="headerlink" title="2.2.4 自动装配："></a>2.2.4 自动装配：</h3><p>根据指定的策略，在IOC容器中匹配某个bean，自动喂bean中实体类类型的属性赋值</p>
+<p>可以通过bean标签中的autowire属性设置装配策略</p>
+<p>自动装配的策略有：</p>
+<p>no，default: 不开启自动装配</p>
+<p>byType: 注意如果根据类型没有找到任何一个类型匹配的bean，此时不装配，若根据类型可以找到不唯一的bean，则throw一个NoUniqueSuchBeanDefinition的Exception</p>
+<p>byName: 以要赋值的字段名作为id寻找bean</p>
+<h2 id="2-3-基于注解管理bean"><a href="#2-3-基于注解管理bean" class="headerlink" title="2.3 基于注解管理bean"></a>2.3 基于注解管理bean</h2><p>除了在xml中配置组件，Spring还允许我们使用注解配置组件。常见的用于配置组件的注解有@Component, @Controller, @Service和@Repository，其实后三个都是@Component标签的别名，但是可以帮助我们快速的辨别不同层的组件，所以在实际使用中应该恰当选择</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserDaoImpl</span> <span class="keyword">implements</span> <span class="title class_">UserDao</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，仅仅使用注解还不足以将对应的bean成功纳入IOC容器的管理之中，还需要在Spring的XML文件中设置需要扫描的类:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;com.atguigu&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>除了最基本的扫描方式外，还可以依据情况使用需要排除扫描的组件和仅需要扫描的组件:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;com.atguigu&quot;</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- context:exclude-filter标签：指定排除规则 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">type：设置排除或包含的依据</span></span><br><span class="line"><span class="comment">type=&quot;annotation&quot;，根据注解排除，expression中设置要排除的注解的全类名</span></span><br><span class="line"><span class="comment">type=&quot;assignable&quot;，根据类型排除，expression中设置要排除的类型的全类名</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context:exclude-filter</span> <span class="attr">type</span>=<span class="string">&quot;annotation&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">expression</span>=<span class="string">&quot;org.springframework.stereotype.Controller&quot;</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!--&lt;context:exclude-filter type=&quot;assignable&quot;</span></span><br><span class="line"><span class="comment">expression=&quot;com.atguigu.controller.UserController&quot;/&gt;--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;com.atguigu&quot;</span> <span class="attr">use-default-filters</span>=<span class="string">&quot;false&quot;</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- context:include-filter标签：指定在原有扫描规则的基础上追加的规则 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- use-default-filters属性：取值false表示关闭默认扫描规则 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 此时必须设置use-default-filters=&quot;false&quot;，因为默认规则即扫描指定包下所有类 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">type：设置排除或包含的依据</span></span><br><span class="line"><span class="comment">type=&quot;annotation&quot;，根据注解排除，expression中设置要排除的注解的全类名</span></span><br><span class="line"><span class="comment">type=&quot;assignable&quot;，根据类型排除，expression中设置要排除的类型的全类名</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context:include-filter</span> <span class="attr">type</span>=<span class="string">&quot;annotation&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">expression</span>=<span class="string">&quot;org.springframework.stereotype.Controller&quot;</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!--&lt;context:include-filter type=&quot;assignable&quot;</span></span><br><span class="line"><span class="comment">expression=&quot;com.atguigu.controller.UserController&quot;/&gt;--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>组件所对应的bean的id</p>
+<p>在我们使用XML方式管理bean的时候，每个bean都有一个唯一标识，便于在其他地方引用。现在使用注解后，每个组件仍然应该有一个唯一标识。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">默认情况</span><br><span class="line">类名首字母小写就是bean的id。例如：UserController类对应的bean的id就是userController。</span><br><span class="line">自定义bean的id</span><br><span class="line">可通过标识组件的注解的value属性设置自定义的bean的id</span><br><span class="line">@Service(&quot;userService&quot;)//默认为userServiceImpl public class UserServiceImpl implements</span><br><span class="line">UserService &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/16/XML%E5%92%8CJSON/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Xin Liu">
+      <meta itemprop="description" content="Life is like a boat, and this is what CC owns.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CC's Boat">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/02/16/XML%E5%92%8CJSON/" class="post-title-link" itemprop="url">XML和JSON</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-02-16 21:46:13 / Modified: 21:46:48" itemprop="dateCreated datePublished" datetime="2023-02-16T21:46:13Z">2023-02-16</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/01/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E4%B8%89%E5%8D%81%E4%B8%80%E5%A4%A9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -552,362 +1010,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/26/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E4%BA%8C%E5%8D%81%E5%85%AD%E5%A4%A9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Xin Liu">
-      <meta itemprop="description" content="Life is like a boat, and this is what CC owns.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CC's Boat">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/01/26/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E4%BA%8C%E5%8D%81%E5%85%AD%E5%A4%A9/" class="post-title-link" itemprop="url">代码随想录算法训练营第二十六天</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2023-01-26 13:19:26 / Modified: 16:06:03" itemprop="dateCreated datePublished" datetime="2023-01-26T13:19:26Z">2023-01-26</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>LeetCode 39.组合总和</p>
-<p>和216组合总和iii有相似之处，唯一的区别就是给定了candidates数组以及允许数字重复使用，只需要稍微调整一下下层递归的起始index即可。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> List&lt;List&lt;Integer&gt;&gt; ans = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">private</span> List&lt;Integer&gt; path = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; <span class="title function_">combinationSum</span><span class="params">(<span class="type">int</span>[] candidates, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">        backtracking(target, candidates, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">backtracking</span> <span class="params">(<span class="type">int</span> target, <span class="type">int</span>[] candidates, <span class="type">int</span> startIndex)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// if target is less than 0, exits</span></span><br><span class="line">        <span class="keyword">if</span> (target &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">            <span class="comment">// if find a successful combo, add it into ans</span></span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (target == <span class="number">0</span>) &#123;</span><br><span class="line">            List&lt;Integer&gt; combo = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">            combo.addAll(path);</span><br><span class="line">            ans.add(combo);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> startIndex; i &lt; candidates.length; i++) &#123;</span><br><span class="line">            path.add(candidates[i]);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// note here, by seting the startIndex to i , it means that</span></span><br><span class="line">            <span class="comment">// the next element can still start with candidates[i]</span></span><br><span class="line">            <span class="comment">// this allows path like [2,2,3]</span></span><br><span class="line">            <span class="comment">// but at the mean time, it prevents the path like [3,2,2]</span></span><br><span class="line">            <span class="comment">// and through this way it removes some duplicates path</span></span><br><span class="line">            backtracking(target - candidates[i], candidates, i);</span><br><span class="line">            path.remove(path.size() - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>LeetCode 40 组合总和ii</p>
-<p>这道题的核心在于去重，注意我们的目的是同层遍历去重，所以通过检验当前元素是否是在同层上与左侧元素相同即可。</p>
-<p><img src="https://p.ipic.vip/3t9gv6.png" alt="图片1"></p>
-<p><a target="_blank" rel="noopener" href="https://programmercarl.com/0040.%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8CII.html#%E5%9B%9E%E6%BA%AF%E4%B8%89%E9%83%A8%E6%9B%B2">(转载自代码随想录)</a></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> List&lt;List&lt;Integer&gt;&gt; ans = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">private</span> List&lt;Integer&gt; path = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; <span class="title function_">combinationSum2</span><span class="params">(<span class="type">int</span>[] candidates, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">        Arrays.sort(candidates);</span><br><span class="line"></span><br><span class="line">        backtracking(candidates, target, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">backtracking</span><span class="params">(<span class="type">int</span>[] candidates, <span class="type">int</span> target, <span class="type">int</span> index)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (target &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">            <span class="comment">// if find a successful combo, add it into ans</span></span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (target == <span class="number">0</span>) &#123;</span><br><span class="line">            List&lt;Integer&gt; combo = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">            combo.addAll(path);</span><br><span class="line">            ans.add(combo);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> index; i &lt; candidates.length; i++) &#123;</span><br><span class="line">						</span><br><span class="line">            <span class="comment">// we need to avoid the duplicates in the same level for instance, </span></span><br><span class="line">          	<span class="comment">// if we are chooseing the first num and the candidates is [1, 1, 1, 2]</span></span><br><span class="line">          	<span class="comment">// then the second 1 would result in duplicates</span></span><br><span class="line">            <span class="comment">// this num is same as its left one &amp;&amp; they are in the same level</span></span><br><span class="line">            <span class="comment">// then skip it</span></span><br><span class="line">            <span class="keyword">if</span> (i &gt; index &amp;&amp; candidates[i] == candidates[i - <span class="number">1</span>])&#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            path.add(candidates[i]);</span><br><span class="line">            backtracking(candidates, target - candidates[i], i + <span class="number">1</span>);</span><br><span class="line">            path.remove(path.size() - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>LeetCode 131.分割回文串</p>
-<p>切割问题，和组合问题有异曲同工之妙，但是稍微有点难想，主要是对分割字符串的操作不是很熟悉。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> List&lt;List&lt;String&gt;&gt; ans = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; path = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;String&gt;&gt; <span class="title function_">partition</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        backtracking(s, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// for any String such as &quot;aabbccd&quot;</span></span><br><span class="line">    <span class="comment">// start with &quot;a&quot; then &quot;aa&quot;, then &quot;aab&quot; </span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">backtracking</span> <span class="params">(String s, <span class="type">int</span> startIndex)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// if we succeed to split the whole string, return</span></span><br><span class="line">        <span class="keyword">if</span> (startIndex &gt;= s.length()) &#123;</span><br><span class="line">              List&lt;String&gt; combo = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">              combo.addAll(path);</span><br><span class="line">              ans.add(combo);</span><br><span class="line">              <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> startIndex; i &lt; s.length(); i++) &#123;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (isPalindrome(s, startIndex, i)) &#123;</span><br><span class="line">                path.add(s.substring(startIndex, i + <span class="number">1</span>));</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            backtracking(s, i + <span class="number">1</span>);</span><br><span class="line">            path.remove(path.size() - <span class="number">1</span>);</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// test if a sub string is palindrome from startIndex to the endIndex</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">isPalindrome</span> <span class="params">(String s, <span class="type">int</span> startIndex, <span class="type">int</span> endIndex)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> startIndex;</span><br><span class="line">        <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> endIndex;</span><br><span class="line"></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">ans</span> <span class="operator">=</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> ( i &lt;= j) &#123;</span><br><span class="line">            <span class="keyword">if</span> (s.charAt(i) == s.charAt(j))&#123;</span><br><span class="line">                i++;</span><br><span class="line">                j--;</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                ans = <span class="literal">false</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/25/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E4%BA%8C%E5%8D%81%E4%BA%94%E5%A4%A9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Xin Liu">
-      <meta itemprop="description" content="Life is like a boat, and this is what CC owns.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CC's Boat">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/01/25/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E4%BA%8C%E5%8D%81%E4%BA%94%E5%A4%A9/" class="post-title-link" itemprop="url">代码随想录算法训练营第二十五天</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2023-01-25 18:05:18 / Modified: 18:08:12" itemprop="dateCreated datePublished" datetime="2023-01-25T18:05:18Z">2023-01-25</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>LeetCode 216.组合总和-iii</p>
-<p>注意可以剪枝，后续再研究.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; <span class="title function_">combinationSum3</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; res = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">        List&lt;Integer&gt; path = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">        backtracking(res, path, k, n, <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">backtracking</span> <span class="params">(List&lt;List&lt;Integer&gt;&gt; res, List&lt;Integer&gt; path, <span class="type">int</span> k, <span class="type">int</span> n, <span class="type">int</span> index)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// recursion exits if size == k &amp;&amp; sum == n</span></span><br><span class="line">        <span class="keyword">if</span> (path.size() == k &amp;&amp; getSum(path) == n) &#123;</span><br><span class="line">            List&lt;Integer&gt; combo = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">            combo.addAll(path);</span><br><span class="line">            res.add(combo);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// traverse the [index, 9]</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> index; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            <span class="comment">// add this value into path</span></span><br><span class="line">            path.add(i);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// traverse the right side numbers</span></span><br><span class="line">            backtracking(res, path, k, n, i + <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// backtrack here</span></span><br><span class="line">            path.remove(path.get(path.size() - <span class="number">1</span>));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// a helper method</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="title function_">getSum</span> <span class="params">( List&lt;Integer&gt; list)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">sum</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (Integer integer : list) &#123;</span><br><span class="line">            sum += integer;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>LeetCode 17.电话号码的字母组合</p>
-<p>还有一些小的优化可以做，比如可以把hashmap换成数组。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;String&gt; <span class="title function_">letterCombinations</span><span class="params">(String digits)</span> &#123;</span><br><span class="line">        Map&lt;Character, String&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">&#x27;2&#x27;</span>, <span class="string">&quot;abc&quot;</span>);</span><br><span class="line">        map.put(<span class="string">&#x27;3&#x27;</span>, <span class="string">&quot;def&quot;</span>);</span><br><span class="line">        map.put(<span class="string">&#x27;4&#x27;</span>, <span class="string">&quot;ghi&quot;</span>);</span><br><span class="line">        map.put(<span class="string">&#x27;5&#x27;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line">        map.put(<span class="string">&#x27;6&#x27;</span>, <span class="string">&quot;mno&quot;</span>);</span><br><span class="line">        map.put(<span class="string">&#x27;7&#x27;</span>, <span class="string">&quot;pqrs&quot;</span>);</span><br><span class="line">        map.put(<span class="string">&#x27;8&#x27;</span>, <span class="string">&quot;tuv&quot;</span>);</span><br><span class="line">        map.put(<span class="string">&#x27;9&#x27;</span>, <span class="string">&quot;wxyz&quot;</span>);</span><br><span class="line"></span><br><span class="line">        List&lt;String&gt; ans = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">        List&lt;Character&gt; path = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (digits.length() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            backtracking(map, ans, path, digits);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">backtracking</span> <span class="params">(Map&lt;Character, String&gt; map, List&lt;String&gt; ans, List&lt;Character&gt; path, String digits)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// recursion exits if the length approach its target</span></span><br><span class="line">        <span class="keyword">if</span> (path.size() == digits.length()) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="type">StringBuffer</span> <span class="variable">sb</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuffer</span>();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (Character character : path) &#123;</span><br><span class="line">                sb.append(character);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            ans.add(<span class="keyword">new</span> <span class="title class_">String</span>(sb));</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">char</span> <span class="variable">digit</span> <span class="operator">=</span> digits.charAt(path.size());</span><br><span class="line">        <span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> map.get(digit);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; str.length(); i++) &#123;</span><br><span class="line">            <span class="type">char</span> <span class="variable">c</span> <span class="operator">=</span> str.charAt(i);</span><br><span class="line">            path.add(c);</span><br><span class="line"></span><br><span class="line">            backtracking(map, ans, path, digits);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// false way</span></span><br><span class="line">            <span class="comment">// path.remove(path.get(path.size() - 1));</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// correct one</span></span><br><span class="line">            path.remove(path.size() - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/20/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E4%BA%8C%E5%8D%81%E5%9B%9B%E5%A4%A9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Xin Liu">
-      <meta itemprop="description" content="Life is like a boat, and this is what CC owns.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CC's Boat">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/01/20/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E4%BA%8C%E5%8D%81%E5%9B%9B%E5%A4%A9/" class="post-title-link" itemprop="url">代码随想录算法训练营第二十四天</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2023-01-20 22:04:03 / Modified: 22:06:25" itemprop="dateCreated datePublished" datetime="2023-01-20T22:04:03Z">2023-01-20</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>LeetCode 77.组合</p>
-<p>backtracking专题第一题，一开始对递归出口的处理没有特别好，一开始使k在递归过程中随着递归的深入不断减少遇到了一些问题，有点麻烦，直接使用k &#x3D;&#x3D; path.size 判断就好了。 </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; <span class="title function_">combine</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; ans = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">        List&lt;Integer&gt; path = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">        myCombine(ans, path, n, k, <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// for instance, n = 20, K = 3,</span></span><br><span class="line">    <span class="comment">// the tartet ans is the combination of every 2 elements in [1, 20]</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">myCombine</span> <span class="params">(List&lt;List&lt;Integer&gt;&gt; ans, List&lt;Integer&gt; path, <span class="type">int</span> n, <span class="type">int</span> k, <span class="type">int</span> index)</span> &#123; </span><br><span class="line">        </span><br><span class="line">        <span class="comment">// recursion exits</span></span><br><span class="line">        <span class="keyword">if</span> (path.size() == k) &#123;</span><br><span class="line">            List&lt;Integer&gt; combine = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">            combine.addAll(path);</span><br><span class="line">            ans.add(combine);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// this is to remove those unvalid recursion</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> index; i &lt;= n - (k - path.size()) + <span class="number">1</span> ; i++) &#123;</span><br><span class="line">            path.add(i);</span><br><span class="line">            myCombine(ans, path, n, k, i + <span class="number">1</span>);</span><br><span class="line">            path.remove(path.get(path.size() - <span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/19/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E4%BA%8C%E5%8D%81%E4%B8%89%E5%A4%A9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Xin Liu">
-      <meta itemprop="description" content="Life is like a boat, and this is what CC owns.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CC's Boat">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/01/19/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E4%BA%8C%E5%8D%81%E4%B8%89%E5%A4%A9/" class="post-title-link" itemprop="url">代码随想录算法训练营第二十三天</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2023-01-19 20:24:51 / Modified: 20:42:59" itemprop="dateCreated datePublished" datetime="2023-01-19T20:24:51Z">2023-01-19</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>LeetCode 669. 修剪二叉搜索树</p>
-<p>依照指定的范围 [low, high] 修剪一颗二叉搜索树，删除所有在范围以外的节点</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> TreeNode <span class="title function_">trimBST</span><span class="params">(TreeNode root, <span class="type">int</span> low, <span class="type">int</span> high)</span> &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">				</span><br><span class="line">				<span class="comment">// as this is a BST, if root&#x27;s val is larger than high </span></span><br><span class="line">				<span class="comment">// then all the right side nodes should be removed</span></span><br><span class="line">        <span class="keyword">if</span> (root.val &gt; high) &#123;</span><br><span class="line">            <span class="keyword">return</span> trimBST(root.left, low, high);</span><br><span class="line">        &#125;</span><br><span class="line">				</span><br><span class="line">				<span class="comment">// the same with the left side</span></span><br><span class="line">        <span class="keyword">if</span> (root.val &lt; low) &#123;</span><br><span class="line">            <span class="keyword">return</span> trimBST(root.right, low, high);</span><br><span class="line">        &#125;</span><br><span class="line">				</span><br><span class="line">				<span class="comment">// else, it means that root is within the target range</span></span><br><span class="line">				<span class="comment">// thus trim its child nodes</span></span><br><span class="line">        root.left = trimBST(root.left, low, high);</span><br><span class="line">        root.right = trimBST(root.right, low, high);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>LeetCode 108. 将有序数组转化为二叉搜索树</p>
-<p>思路并不复杂，有序数组构建二叉搜索树，首先找到中间节点, 然后用左侧部分构建左树， 右侧构建右树，注意在递归的过程中维持循环不变量——左闭右开区间。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> TreeNode <span class="title function_">sortedArrayToBST</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="comment">// as I do not wanna change the array itself thus I choose to use to helper</span></span><br><span class="line">        <span class="comment">// function and express the range </span></span><br><span class="line">        <span class="keyword">return</span> buildBST(nums, <span class="number">0</span>, nums.length);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// build the tree and return the root node in range [startIndex, endIndex)</span></span><br><span class="line">    <span class="keyword">private</span> TreeNode <span class="title function_">buildBST</span> <span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> startIndex, <span class="type">int</span> endIndex)</span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (startIndex &gt;= endIndex) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// pre-order</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> (endIndex - startIndex) / <span class="number">2</span> + startIndex;</span><br><span class="line">        <span class="type">TreeNode</span> <span class="variable">root</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TreeNode</span> (nums[mid]);</span><br><span class="line">        </span><br><span class="line">      	<span class="comment">// maitain the invirants- the range [startIndex, endIndex)</span></span><br><span class="line">        root.left = buildBST(nums, startIndex, mid);</span><br><span class="line">        root.right = buildBST(nums, mid + <span class="number">1</span>, endIndex);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>LeetCode 538.把二叉搜索树转换为累加树</p>
-<p>一开始没注意从rightmost节点开始遍历可以一次遍历完成所有操作</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> Integer.MIN_VALUE;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> TreeNode <span class="title function_">convertBST</span><span class="params">(TreeNode root)</span> &#123;</span><br><span class="line"></span><br><span class="line">        myConvertTree(root);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">myConvertTree</span> <span class="params">(TreeNode root)</span> &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// reflect the target tree, we can find that it starts counting </span></span><br><span class="line">        <span class="comment">// with the right node, then root node</span></span><br><span class="line">        <span class="comment">// and then the left node, thus we can traverse the tree in a variant in-order</span></span><br><span class="line">        <span class="comment">// i.e. right mid left </span></span><br><span class="line">        myConvertTree(root.right);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// use a temp variable to record the updated value of the prev node thus we can </span></span><br><span class="line">        <span class="comment">// change all the nodes in one traverse</span></span><br><span class="line">        <span class="keyword">if</span> (temp != Integer.MIN_VALUE) &#123;</span><br><span class="line">            root.val += temp;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        temp = root.val;</span><br><span class="line"></span><br><span class="line">        myConvertTree(root.left);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/18/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E4%BA%8C%E5%8D%81%E4%BA%8C%E5%A4%A9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Xin Liu">
-      <meta itemprop="description" content="Life is like a boat, and this is what CC owns.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CC's Boat">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/01/18/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E7%AE%97%E6%B3%95%E8%AE%AD%E7%BB%83%E8%90%A5%E7%AC%AC%E4%BA%8C%E5%8D%81%E4%BA%8C%E5%A4%A9/" class="post-title-link" itemprop="url">代码随想录算法训练营第二十二天</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2023-01-18 20:53:28 / Modified: 22:14:36" itemprop="dateCreated datePublished" datetime="2023-01-18T20:53:28Z">2023-01-18</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>LeetCode 235.二叉搜索树的最近公共祖先</p>
-<p>本题相较于非BST的LCA求解要容易得多，因为每次递归时我们可以利用BST的性质判断出公共祖先节点的位置区间，因此就变得简洁的多。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> TreeNode <span class="title function_">lowestCommonAncestor</span><span class="params">(TreeNode root, TreeNode p, TreeNode q)</span> &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// if root.val == q.val or p.val then no need to traverse</span></span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">null</span> || root.val == q.val || root.val == p.val) &#123;</span><br><span class="line">            <span class="keyword">return</span> root;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// if both q&#x27;s and p&#x27;s val are less than root.val then search the left side</span></span><br><span class="line">        <span class="keyword">if</span> (root.val &gt; q.val &amp;&amp; root.val &gt; p.val) &#123;</span><br><span class="line">            <span class="keyword">return</span> lowestCommonAncestor(root.left, p, q);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// if both q&#x27;s and p&#x27;s val are larger than root.val then search the right side</span></span><br><span class="line">        <span class="keyword">if</span> (root.val &lt; q.val &amp;&amp; root.val &lt; p.val) &#123;</span><br><span class="line">            <span class="keyword">return</span> lowestCommonAncestor(root.right, p, q);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// else it means that the two nodes are in both sides, no matter q is in left &amp;&amp;</span></span><br><span class="line">        <span class="comment">// p in the right or the reversed situation, just return root </span></span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>LeetCode 701. 二叉搜索树中的插入操作</p>
-<p>二叉搜索树的插入操作还是相对简单的，找到目标位置，插入即可，不涉及树结构的改变。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> TreeNode <span class="title function_">insertIntoBST</span><span class="params">(TreeNode root, <span class="type">int</span> val)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">null</span>) &#123;</span><br><span class="line">            root = <span class="keyword">new</span> <span class="title class_">TreeNode</span> (val);</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            insertRecursively(root, val);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// a helper function help us do the recursion </span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">insertRecursively</span> <span class="params">(TreeNode node, <span class="type">int</span> val)</span> &#123;</span><br><span class="line">       </span><br><span class="line">        <span class="keyword">if</span> (node == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (val &lt; node.val) &#123;</span><br><span class="line">           <span class="keyword">if</span> (node.left != <span class="literal">null</span>) &#123;</span><br><span class="line">            insertNode(node.left, val);</span><br><span class="line">           &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            node.left = <span class="keyword">new</span> <span class="title class_">TreeNode</span> (val);</span><br><span class="line">           &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (val &gt; node.val) &#123;</span><br><span class="line">            <span class="keyword">if</span> (node.right != <span class="literal">null</span>) &#123;</span><br><span class="line">             insertNode(node.right, val);</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">             node.right = <span class="keyword">new</span> <span class="title class_">TreeNode</span> (val);</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>LeetCode 450. 删除二叉搜索树中的节点</p>
-<p>这道题还是挺有难度的，需要考虑很多种情况，主要是因为删除节点会对树的结构带来改变。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> TreeNode <span class="title function_">deleteNode</span><span class="params">(TreeNode root, <span class="type">int</span> key)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> root;</span><br><span class="line">        &#125;</span><br><span class="line">        List&lt;Integer&gt; list = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// if root is the node to delete</span></span><br><span class="line">        <span class="keyword">if</span> (root.val == key) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// if right branch is null then return left</span></span><br><span class="line">            <span class="keyword">if</span> (root.left != <span class="literal">null</span> &amp;&amp; root.right == <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> root.left;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// if left branch is null then return right</span></span><br><span class="line">            <span class="keyword">if</span> (root.left == <span class="literal">null</span> &amp;&amp; root.right != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> root.right;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// if no children just return null</span></span><br><span class="line">            <span class="keyword">if</span> (root.left == <span class="literal">null</span> &amp;&amp; root.right == <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// else: it means that both child nodes exist</span></span><br><span class="line">            </span><br><span class="line">            <span class="comment">// find the leftmost child of root&#x27;s right branch</span></span><br><span class="line">            <span class="type">TreeNode</span> <span class="variable">node</span> <span class="operator">=</span> root.right;</span><br><span class="line">            <span class="keyword">while</span> (node.left != <span class="literal">null</span>) &#123;</span><br><span class="line">                node = node.left;</span><br><span class="line">            &#125;</span><br><span class="line">            node.left = root.left; </span><br><span class="line">            <span class="keyword">return</span> root.right;</span><br><span class="line"></span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (root.val &gt; key) &#123;</span><br><span class="line">                <span class="comment">// we maintain that deleteNode returns the new node after deletion</span></span><br><span class="line">                root.left = deleteNode(root.left, key);</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                root.right = deleteNode(root.right, key);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -973,12 +1079,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
